@@ -1,0 +1,33 @@
+button {
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 8px;
+  margin: 8px;
+  font-size: 14px;
+  color: white;
+  font-weight: 500;
+  flex: 1;
+  max-width: 500px;
+}
+
+.matrix-action-btn {
+  background-color: rgb(45, 159, 216);
+  border: 1px solid rgb(0, 137, 206);
+}
+.matrix-action-btn:hover {
+  background-color: rgb(0, 137, 206);
+}
+.matrix-action-btn:active {
+  background-color: rgb(1, 118, 177);
+}
+
+.start-path-btn {
+  background-color: rgb(62, 216, 45);
+  border: 1px solid rgb(14, 206, 0);
+}
+.start-path-btn:hover {
+  background-color: rgb(14, 206, 0);
+}
+.start-path-btn:active {
+  background-color: rgb(45, 177, 1);
+}
