@@ -1,0 +1,14 @@
+.cell {
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.cell:hover {
+  background-color: rgb(195, 190, 255);
+}
+
+.cell:active{
+  background-color: rgb(171, 164, 253);
+}
