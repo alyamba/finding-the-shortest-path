@@ -1,7 +1,12 @@
 import { useState } from "react";
 import "./App.css";
 import { Cell, Button } from "./components";
-import { MATRIX_SIZE, DEFAULT_CELL, START_STOP_CELL } from "./core/constants";
+import {
+  MATRIX_SIZE,
+  DEFAULT_CELL,
+  START_STOP_CELL,
+  DISABLED_CELL,
+} from "./core/constants";
 
 const App = () => {
   const [matrix, setMatrix] = useState(
@@ -12,12 +17,14 @@ const App = () => {
   const [matrixInEditingMode, setMatrixInEditingMode] = useState(null);
   const [isEditingMode, setEditingMode] = useState(false);
   const [isStartStopMode, setStartStopMode] = useState(false);
+  const [isBlockingMode, setBlockingMode] = useState(false);
 
   const enableStartStopMode = () => {
     setMatrixInEditingMode(structuredClone(matrix));
     setStartStopMode((old) => !old);
     setEditingMode((old) => !old);
   };
+
   const disableStartStopMode = () => {
     setMatrixInEditingMode(null);
     setStartStopMode((old) => !old);
@@ -28,20 +35,38 @@ const App = () => {
     if (isStartStopMode) {
       setMatrixInEditingMode((old) => {
         let tempMatrix = structuredClone(old);
+        const isDisabledCell =
+          tempMatrix[cellRowIndex][cellColumnIndex] === DISABLED_CELL;
         const isStartStopCell =
           tempMatrix[cellRowIndex][cellColumnIndex] === START_STOP_CELL;
         if (isStartStopCell) {
           tempMatrix[cellRowIndex][cellColumnIndex] = DEFAULT_CELL;
-          return tempMatrix;
+        } else if (isDisabledCell) {
+          alert("Данная ячейка заблокирована другим действием");
         } else if (
           tempMatrix.flat().filter((el) => el === START_STOP_CELL).length < 2
         ) {
           tempMatrix[cellRowIndex][cellColumnIndex] = START_STOP_CELL;
-          return tempMatrix;
         } else {
           alert("Уже выбраны 2 ячейки");
-          return tempMatrix;
         }
+        return tempMatrix;
+      });
+    } else if (isBlockingMode) {
+      setMatrixInEditingMode((old) => {
+        let tempMatrix = structuredClone(old);
+        const isDisabledCell =
+          tempMatrix[cellRowIndex][cellColumnIndex] === DISABLED_CELL;
+        const isStartStopCell =
+          tempMatrix[cellRowIndex][cellColumnIndex] === START_STOP_CELL;
+        if (isDisabledCell) {
+          tempMatrix[cellRowIndex][cellColumnIndex] = DEFAULT_CELL;
+        } else if (isStartStopCell) {
+          alert("Данная ячейка заблокирована другим действия");
+        } else {
+          tempMatrix[cellRowIndex][cellColumnIndex] = DISABLED_CELL;
+        }
+        return tempMatrix;
       });
     }
   };
@@ -62,19 +87,48 @@ const App = () => {
     disableStartStopMode();
   };
 
+  const enableBlockingMode = () => {
+    setMatrixInEditingMode(structuredClone(matrix));
+    setBlockingMode((old) => !old);
+    setEditingMode((old) => !old);
+  };
+
+  const disableBlockingMode = () => {
+    setMatrixInEditingMode(null);
+    setBlockingMode((old) => !old);
+    setEditingMode((old) => !old);
+  };
+
+  const handleSaveBlockingMode = () => {
+    setMatrix(structuredClone(matrixInEditingMode));
+    disableBlockingMode();
+  };
+
+  const handleCancelBlockingMode = () => {
+    disableBlockingMode();
+  };
+
   return (
     <div className="App">
       <div className="header-btns-container">
-        {isStartStopMode ? (
+        {isStartStopMode || isBlockingMode ? (
           <>
             <Button
               className="matrix-action-btn"
-              onPress={handleSaveStartStopMode}
+              onPress={
+                isStartStopMode
+                  ? handleSaveStartStopMode
+                  : handleSaveBlockingMode
+              }
               text="Сохранить"
             />
             <Button
               className="matrix-action-btn"
-              onPress={handleCancelStartStopMode}
+              onPress={
+                isStartStopMode
+                  ? handleCancelStartStopMode
+                  : handleCancelBlockingMode
+              }
               text="Отмена"
             />
           </>
@@ -87,7 +141,7 @@ const App = () => {
             />
             <Button
               className="matrix-action-btn"
-              onPress={() => console.log("puk2")}
+              onPress={enableBlockingMode}
               text="Заблокировать ячейки"
             />
           </>
