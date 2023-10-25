@@ -1,6 +1,10 @@
 import React, { useMemo } from "react";
 import "./Cell.css";
-import { DISABLED_CELL, START_STOP_CELL } from "../../core/constants";
+import {
+  DISABLED_CELL,
+  ROUTE_CELL,
+  START_STOP_CELL,
+} from "../../core/constants";
 
 const Cell = ({ value, onPress = () => {}, rowIndex, columnIndex }) => {
   const cellTypeClassName = useMemo(
@@ -9,6 +13,10 @@ const Cell = ({ value, onPress = () => {}, rowIndex, columnIndex }) => {
         ? "disabled"
         : value === START_STOP_CELL
         ? "start-stop"
+        // : value === CHECKED_CELL
+        // ? "checked"
+        : value === ROUTE_CELL
+        ? "route"
         : "",
     [value]
   );

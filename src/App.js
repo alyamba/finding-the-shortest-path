@@ -2,18 +2,17 @@ import { useState } from "react";
 import "./App.css";
 import { Cell, Button } from "./components";
 import {
-  MATRIX_SIZE,
   DEFAULT_CELL,
   START_STOP_CELL,
   DISABLED_CELL,
+  ROUTE_CELL,
+  INITIAL_MATRIX,
 } from "./core/constants";
+import { shortestPath } from "./core/utils";
 
 const App = () => {
-  const [matrix, setMatrix] = useState(
-    Array.from({ length: MATRIX_SIZE }, () =>
-      Array.from({ length: MATRIX_SIZE }, () => DEFAULT_CELL)
-    )
-  );
+  const [matrix, setMatrix] = useState(INITIAL_MATRIX);
+
   const [matrixInEditingMode, setMatrixInEditingMode] = useState(null);
   const [isEditingMode, setEditingMode] = useState(false);
   const [isStartStopMode, setStartStopMode] = useState(false);
@@ -108,6 +107,12 @@ const App = () => {
     disableBlockingMode();
   };
 
+  const handleCleanCells = () => {
+    if (window.confirm("Готовы скинуть решение?")) {
+      setMatrix(INITIAL_MATRIX);
+    }
+  };
+
   return (
     <div className="App">
       <div className="header-btns-container">
@@ -180,11 +185,30 @@ const App = () => {
               );
             })}
       </div>
-      <Button
-        className="start-path-btn"
-        onPress={() => alert("Маршрут")}
-        text="Построить маршрут"
-      />
+      {matrix.flat().includes(ROUTE_CELL) ? (
+        <>
+          <Button
+            className="clear-btn"
+            onPress={handleCleanCells}
+            text="Сбросить данные"
+            isDisabled={
+              matrix.flat().filter((el) => el === START_STOP_CELL).length !== 2
+            }
+          />
+        </>
+      ) : (
+        <>
+          <Button
+            className="start-path-btn"
+            onPress={() => shortestPath(matrix, setMatrix)}
+            text="Построить маршрут"
+            isDisabled={
+              matrix.flat().filter((el) => el === START_STOP_CELL).length !==
+                2 || isEditingMode
+            }
+          />
+        </>
+      )}
     </div>
   );
 };

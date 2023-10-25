@@ -18,5 +18,13 @@
 }
 
 .disabled {
-  background-color: rgb(96, 96, 96);
+  background-color: rgb(151, 151, 151);
+}
+
+.checked {
+  background-color: orange;
+}
+
+.route {
+  background-color: aquamarine;
 }

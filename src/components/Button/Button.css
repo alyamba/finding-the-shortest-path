@@ -31,3 +31,29 @@ button {
 .start-path-btn:active {
   background-color: rgb(45, 177, 1);
 }
+
+.disabled-btn {
+  background-color: rgb(171, 171, 171);
+  border: 1px solid grey;
+}
+
+.disabled-btn:hover {
+  background-color: rgb(160, 160, 160);
+}
+
+.disabled-btn:active {
+  background-color: rgb(151, 151, 151);
+}
+
+.clear-btn {
+  background-color: rgb(255, 58, 58);
+  border: 1px solid rgb(255, 26, 26);
+}
+
+.clear-btn:hover {
+  background-color: rgb(245, 58, 58);
+}
+
+.clear-btn:active {
+  background-color: rgb(235, 58, 58);
+}
