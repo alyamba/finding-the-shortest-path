@@ -1,4 +1,4 @@
-export const MATRIX_SIZE = 15;
+export const MATRIX_SIZE = 100;
 
 export const DEFAULT_CELL = 1;
 export const DISABLED_CELL = 0;

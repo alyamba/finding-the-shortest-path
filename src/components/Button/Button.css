@@ -7,7 +7,7 @@ button {
   color: white;
   font-weight: 500;
   flex: 1;
-  max-width: 500px;
+  max-width: 300px;
 }
 
 .matrix-action-btn {

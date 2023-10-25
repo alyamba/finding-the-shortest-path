@@ -50,11 +50,13 @@ export const App = ({
               className="matrix-action-btn"
               onPress={enableStartStopMode}
               text="Старт-стоп ячейки"
+              isDisabled={hasMatrixRouteCells}
             />
             <Button
               className="matrix-action-btn"
               onPress={enableBlockingMode}
               text="Заблокировать ячейки"
+              isDisabled={hasMatrixRouteCells}
             />
           </>
         )}
@@ -65,20 +67,22 @@ export const App = ({
         isEditingMode={isEditingMode}
         handleCellPress={handleCellPress}
       />
-      {hasMatrixRouteCells ? (
-        <Button
-          className="clear-btn"
-          onPress={handleCleanCells}
-          text="Сбросить данные"
-        />
-      ) : (
-        <Button
-          className="start-path-btn"
-          onPress={handleFindPath}
-          text="Построить маршрут"
-          isDisabled={isFindPathButtonDisabled}
-        />
-      )}
+      <div className="main-btn-container">
+        {hasMatrixRouteCells ? (
+          <Button
+            className="clear-btn"
+            onPress={handleCleanCells}
+            text="Сбросить данные"
+          />
+        ) : (
+          <Button
+            className="start-path-btn"
+            onPress={handleFindPath}
+            text="Построить маршрут"
+            isDisabled={isFindPathButtonDisabled}
+          />
+        )}
+      </div>
     </div>
   );
 };

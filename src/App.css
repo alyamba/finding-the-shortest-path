@@ -20,5 +20,10 @@ body {
 .header-btns-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
+}
+
+.main-btn-container{
+  display: flex;
+  justify-content: center;
 }
