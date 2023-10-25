@@ -1,6 +1,6 @@
 .cell {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   border: 1px solid rgba(180, 180, 180, 0.652);
   cursor: pointer;
 }

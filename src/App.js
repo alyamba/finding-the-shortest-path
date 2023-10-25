@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Button, Matrix } from "./components";
+import { Button, Matrix, Modal } from "./components";
 
 export const App = ({
   matrix,
@@ -10,6 +10,7 @@ export const App = ({
   isBlockingMode,
   isFindPathButtonDisabled,
   hasMatrixRouteCells,
+  executionTime,
   enableStartStopMode,
   handleSaveStartStopMode,
   handleCancelStartStopMode,
@@ -83,6 +84,13 @@ export const App = ({
           />
         )}
       </div>
+      <Modal
+        message={
+          hasMatrixRouteCells
+            ? `Время выполнения: ${executionTime} ms`
+            : "Ожидание выполнения..."
+        }
+      />
     </div>
   );
 };

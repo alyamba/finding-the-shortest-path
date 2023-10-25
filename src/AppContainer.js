@@ -15,6 +15,8 @@ export const AppContainer = () => {
   const [isStartStopMode, setStartStopMode] = useState(false);
   const [isBlockingMode, setBlockingMode] = useState(false);
 
+  const [executionTime, setExecutionTime] = useState(null);
+
   const enableStartStopMode = () => {
     setMatrixInEditingMode(structuredClone(matrix));
     setStartStopMode((old) => !old);
@@ -91,7 +93,7 @@ export const AppContainer = () => {
           });
         return newMatrix;
       });
-      window.alert(`Время выполнения: ${executionTime} мс`);
+      setExecutionTime(executionTime)
     } else {
       if (window.confirm("Конечная точка недостижима. Хотите очистить поле?")) {
         setMatrix(INITIAL_MATRIX);
@@ -114,6 +116,7 @@ export const AppContainer = () => {
       isBlockingMode={isBlockingMode}
       isFindPathButtonDisabled={isFindPathButtonDisabled}
       hasMatrixRouteCells={hasMatrixRouteCells}
+      executionTime={executionTime}
       enableStartStopMode={enableStartStopMode}
       handleSaveStartStopMode={handleSaveStartStopMode}
       handleCancelStartStopMode={handleCancelStartStopMode}
