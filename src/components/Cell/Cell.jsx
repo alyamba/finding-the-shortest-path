@@ -19,9 +19,7 @@ const Cell = ({
         ? "disabled"
         : value === START_STOP_CELL
         ? "start-stop"
-        : // : value === CHECKED_CELL
-        // ? "checked"
-        value === ROUTE_CELL
+        : value === ROUTE_CELL
         ? "route"
         : "",
     [value]

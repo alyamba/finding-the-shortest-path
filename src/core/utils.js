@@ -37,7 +37,7 @@ export const getPreparedMatrixAfterCellAction = (
   }
 };
 
-const findIndexStartStopCells = (matrix) => {
+export const findIndexStartStopCells = (matrix) => {
   let arrayStartStop = [];
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
@@ -49,7 +49,8 @@ const findIndexStartStopCells = (matrix) => {
   return arrayStartStop;
 };
 
-export const getShortestPath = (matrix, changeMatrix) => {
+export const getShortestPath = (matrix) => {
+  const startTime = Date.now()
   const startStop = findIndexStartStopCells(matrix);
 
   const start = startStop[0];
@@ -83,16 +84,8 @@ export const getShortestPath = (matrix, changeMatrix) => {
     const path = current.path;
 
     if (x === stop[0] && y === stop[1]) {
-      changeMatrix((old) => {
-        let newMatrix = structuredClone(old);
-        path
-          .filter((el) => !(el.x === start[0] && el.y === start[1]))
-          .forEach((cell) => {
-            newMatrix[cell.y][cell.x] = 4;
-          });
-        return newMatrix;
-      });
-      return { dist, path }; // Мы достигли конечной точки
+      const endTime = Date.now()
+      return { dist, path, executionTime: endTime - startTime }; // Мы достигли конечной точки
     }
 
     // Перемещаемся во все соседние ячейки
@@ -112,17 +105,11 @@ export const getShortestPath = (matrix, changeMatrix) => {
           dist: dist + 1,
           path: [...path, { x, y }],
         });
-        changeMatrix((old) => {
-          let newMatrix = structuredClone(old);
-          if (!(newX === stop[0] && newY === stop[1])) {
-            newMatrix[newX][newY] = 3;
-          }
-          return newMatrix;
-        });
+
         visited[newX][newY] = true;
       }
     }
   }
 
-  return { dist: -1, path: [] }; // Конечная точка недостижима
+  return { dist: -1, path: [], executionTime: null }; // Конечная точка недостижима
 };

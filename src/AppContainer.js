@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { App } from "./App";
 import { INITIAL_MATRIX, ROUTE_CELL, START_STOP_CELL } from "./core/constants";
-import { getPreparedMatrixAfterCellAction, getShortestPath } from "./core/utils";
+import {
+  findIndexStartStopCells,
+  getPreparedMatrixAfterCellAction,
+  getShortestPath,
+} from "./core/utils";
 
 export const AppContainer = () => {
   const [matrix, setMatrix] = useState(INITIAL_MATRIX);
@@ -74,12 +78,32 @@ export const AppContainer = () => {
     }
   };
 
-  const handleFindPath = () => getShortestPath(matrix, setMatrix)
+  const handleFindPath = () => {
+    const { dist, path, executionTime } = getShortestPath(matrix);
+    const [start] = findIndexStartStopCells(matrix);
+    if (dist !== -1) {
+      setMatrix((old) => {
+        let newMatrix = structuredClone(old);
+        path
+          .filter((el) => !(el.x === start[0] && el.y === start[1]))
+          .forEach((cell) => {
+            newMatrix[cell.x][cell.y] = ROUTE_CELL;
+          });
+        return newMatrix;
+      });
+      window.alert(`Время выполнения: ${executionTime} мс`);
+    } else {
+      if (window.confirm("Конечная точка недостижима. Хотите очистить поле?")) {
+        setMatrix(INITIAL_MATRIX);
+      }
+    }
+  };
 
-  const isFindPathButtonDisabled = matrix.flat().filter((el) => el === START_STOP_CELL).length !== 2 ||
-  isEditingMode
+  const isFindPathButtonDisabled =
+    matrix.flat().filter((el) => el === START_STOP_CELL).length !== 2 ||
+    isEditingMode;
 
-  const hasMatrixRouteCells = matrix.flat().includes(ROUTE_CELL)
+  const hasMatrixRouteCells = matrix.flat().includes(ROUTE_CELL);
 
   return (
     <App
