@@ -22,12 +22,3 @@ body {
   flex-direction: row;
   justify-content: space-between;
 }
-
-.matrix-container {
-  margin: 8px;
-}
-
-.line-container {
-  display: flex;
-  flex-direction: row;
-}

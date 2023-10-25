@@ -6,22 +6,30 @@ import {
   START_STOP_CELL,
 } from "../../core/constants";
 
-const Cell = ({ value, onPress = () => {}, rowIndex, columnIndex }) => {
+const Cell = ({
+  value,
+  onPress = () => {},
+  rowIndex,
+  columnIndex,
+  isDisabled = false,
+}) => {
   const cellTypeClassName = useMemo(
     () =>
       value === DISABLED_CELL
         ? "disabled"
         : value === START_STOP_CELL
         ? "start-stop"
-        // : value === CHECKED_CELL
+        : // : value === CHECKED_CELL
         // ? "checked"
-        : value === ROUTE_CELL
+        value === ROUTE_CELL
         ? "route"
         : "",
     [value]
   );
   const handleCellPress = () => {
-    onPress(rowIndex, columnIndex);
+    if (!isDisabled) {
+      onPress(rowIndex, columnIndex);
+    }
   };
   return (
     <div

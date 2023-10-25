@@ -1,4 +1,41 @@
-import { DEFAULT_CELL, START_STOP_CELL } from "./constants";
+import { DEFAULT_CELL, DISABLED_CELL, START_STOP_CELL } from "./constants";
+
+export const getPreparedMatrixAfterCellAction = (
+  oldMatrix,
+  cellRowIndex,
+  cellColumnIndex,
+  isStartStopMode,
+  isBlockingMode
+) => {
+  let tempMatrix = structuredClone(oldMatrix);
+  const isDisabledCell =
+    tempMatrix[cellRowIndex][cellColumnIndex] === DISABLED_CELL;
+  const isStartStopCell =
+    tempMatrix[cellRowIndex][cellColumnIndex] === START_STOP_CELL;
+  if (isStartStopMode) {
+    if (isStartStopCell) {
+      tempMatrix[cellRowIndex][cellColumnIndex] = DEFAULT_CELL;
+    } else if (isDisabledCell) {
+      alert("Данная ячейка заблокирована другим действием");
+    } else if (
+      tempMatrix.flat().filter((el) => el === START_STOP_CELL).length < 2
+    ) {
+      tempMatrix[cellRowIndex][cellColumnIndex] = START_STOP_CELL;
+    } else {
+      alert("Уже выбраны 2 ячейки");
+    }
+    return tempMatrix;
+  } else if (isBlockingMode) {
+    if (isDisabledCell) {
+      tempMatrix[cellRowIndex][cellColumnIndex] = DEFAULT_CELL;
+    } else if (isStartStopCell) {
+      alert("Данная ячейка заблокирована другим действия");
+    } else {
+      tempMatrix[cellRowIndex][cellColumnIndex] = DISABLED_CELL;
+    }
+    return tempMatrix;
+  }
+};
 
 const findIndexStartStopCells = (matrix) => {
   let arrayStartStop = [];
@@ -12,7 +49,7 @@ const findIndexStartStopCells = (matrix) => {
   return arrayStartStop;
 };
 
-export const shortestPath = (matrix, changeMatrix) => {
+export const getShortestPath = (matrix, changeMatrix) => {
   const startStop = findIndexStartStopCells(matrix);
 
   const start = startStop[0];
@@ -87,5 +124,5 @@ export const shortestPath = (matrix, changeMatrix) => {
     }
   }
 
-  return -1; // Конечная точка недостижима
+  return { dist: -1, path: [] }; // Конечная точка недостижима
 };
