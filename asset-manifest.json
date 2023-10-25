@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/finding-the-shortest-path/static/css/main.301c7595.css",
+    "main.js": "/finding-the-shortest-path/static/js/main.f11258c2.js",
+    "index.html": "/finding-the-shortest-path/index.html",
+    "main.301c7595.css.map": "/finding-the-shortest-path/static/css/main.301c7595.css.map",
+    "main.f11258c2.js.map": "/finding-the-shortest-path/static/js/main.f11258c2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.301c7595.css",
+    "static/js/main.f11258c2.js"
+  ]
+}
